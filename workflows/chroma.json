@@ -1,18 +1,18 @@
 {
-    "67": {
+    "SamplerCustomAdvanced": {
         "inputs": {
-            "noise": ["68", 0],
-            "guider": ["73", 0],
-            "sampler": ["72", 0],
-            "sigmas": ["84", 0],
-            "latent_image": ["69", 0]
+            "noise": ["RandomNoise", 0],
+            "guider": ["CFGGuider", 0],
+            "sampler": ["KSamplerSelect", 0],
+            "sigmas": ["BasicScheduler", 0],
+            "latent_image": ["EmptySD3LatentImage", 0]
         },
         "class_type": "SamplerCustomAdvanced",
         "_meta": {
             "title": "SamplerCustomAdvanced"
         }
     },
-    "68": {
+    "RandomNoise": {
         "inputs": {
             "noise_seed": 0
         },
@@ -21,7 +21,7 @@
             "title": "RandomNoise"
         }
     },
-    "69": {
+    "EmptySD3LatentImage": {
         "inputs": {
             "width": 1024,
             "height": 1024,
@@ -32,7 +32,7 @@
             "title": "EmptySD3LatentImage"
         }
     },
-    "72": {
+    "KSamplerSelect": {
         "inputs": {
             "sampler_name": "euler"
         },
@@ -41,72 +41,72 @@
             "title": "KSamplerSelect"
         }
     },
-    "73": {
+    "CFGGuider": {
         "inputs": {
             "cfg": 5,
-            "model": ["90", 0],
-            "positive": ["96", 0],
-            "negative": ["75", 0]
+            "model": ["UNETLoader", 0],
+            "positive": ["CLIPTextEncode_positive", 0],
+            "negative": ["CLIPTextEncode_negative", 0]
         },
         "class_type": "CFGGuider",
         "_meta": {
             "title": "CFGGuider"
         }
     },
-    "75": {
+    "CLIPTextEncode_negative": {
         "inputs": {
             "text": "bad quality, worst quality, nsfw, nude, sex, pussy, dick, naked, grayscale, black and white",
-            "clip": ["82", 0]
+            "clip": ["T5TokenizerOptions", 0]
         },
         "class_type": "CLIPTextEncode",
         "_meta": {
             "title": "CLIP Text Encode (Prompt)"
         }
     },
-    "79": {
+    "VAEDecode": {
         "inputs": {
-            "samples": ["67", 0],
-            "vae": ["92", 0]
+            "samples": ["SamplerCustomAdvanced", 0],
+            "vae": ["VAELoader", 0]
         },
         "class_type": "VAEDecode",
         "_meta": {
             "title": "VAE Decode"
         }
     },
-    "81": {
+    "SaveImage": {
         "inputs": {
             "filename_prefix": "ComfyUI",
-            "images": ["79", 0]
+            "images": ["VAEDecode", 0]
         },
         "class_type": "SaveImage",
         "_meta": {
             "title": "Save Image"
         }
     },
-    "82": {
+    "T5TokenizerOptions": {
         "inputs": {
             "min_padding": 1,
             "min_length": 0,
-            "clip": ["91", 0]
+            "clip": ["CLIPLoader", 0]
         },
         "class_type": "T5TokenizerOptions",
         "_meta": {
             "title": "T5TokenizerOptions"
         }
     },
-    "84": {
+    "BasicScheduler": {
         "inputs": {
             "scheduler": "beta",
             "steps": 15,
             "denoise": 1,
-            "model": ["90", 0]
+            "model": ["UNETLoader", 0]
         },
         "class_type": "BasicScheduler",
         "_meta": {
             "title": "BasicScheduler"
         }
     },
-    "90": {
+    "UNETLoader": {
         "inputs": {
             "unet_name": "chroma-unlocked-v48-detail-calibrated.safetensors",
             "weight_dtype": "default"
@@ -116,7 +116,7 @@
             "title": "UNET Loader"
         }
     },
-    "91": {
+    "CLIPLoader": {
         "inputs": {
             "clip_name": "t5xxl_fp16_2.safetensors",
             "type": "chroma"
@@ -126,7 +126,7 @@
             "title": "CLIP Loader"
         }
     },
-    "92": {
+    "VAELoader": {
         "inputs": {
             "vae_name": "diffusion_pytorch_model.safetensors"
         },
@@ -135,10 +135,10 @@
             "title": "VAE Loader"
         }
     },
-    "96": {
+    "CLIPTextEncode_positive": {
         "inputs": {
             "text": "test prompt",
-            "clip": ["82", 0]
+            "clip": ["T5TokenizerOptions", 0]
         },
         "class_type": "CLIPTextEncode",
         "_meta": {

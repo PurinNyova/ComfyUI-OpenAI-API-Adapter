@@ -1,0 +1,146 @@
+{
+    "SamplerCustomAdvanced": {
+        "inputs": {
+            "noise": ["RandomNoise", 0],
+            "guider": ["BasicGuider", 0],
+            "sampler": ["KSamplerSelect", 0],
+            "sigmas": ["BasicScheduler", 0],
+            "latent_image": ["EmptySD3LatentImage", 0]
+        },
+        "class_type": "SamplerCustomAdvanced",
+        "_meta": {
+            "title": "SamplerCustomAdvanced"
+        }
+    },
+    "RandomNoise": {
+        "inputs": {
+            "noise_seed": 0
+        },
+        "class_type": "RandomNoise",
+        "_meta": {
+            "title": "RandomNoise"
+        }
+    },
+    "EmptySD3LatentImage": {
+        "inputs": {
+            "width": 1024,
+            "height": 1024,
+            "batch_size": 1
+        },
+        "class_type": "EmptySD3LatentImage",
+        "_meta": {
+            "title": "EmptySD3LatentImage"
+        }
+    },
+    "KSamplerSelect": {
+        "inputs": {
+            "sampler_name": "euler"
+        },
+        "class_type": "KSamplerSelect",
+        "_meta": {
+            "title": "KSamplerSelect"
+        }
+    },
+    "BasicGuider": {
+        "inputs": {
+            "cfg": 5,
+            "model": ["FluxGuidance", 0],
+            "positive": ["CLIPTextEncode_positive", 0]
+        },
+        "class_type": "BasicGuider",
+        "_meta": {
+            "title": "BasicGuider"
+        }
+    },
+    "VAEDecode": {
+        "inputs": {
+            "samples": ["SamplerCustomAdvanced", 0],
+            "vae": ["VAELoader", 0]
+        },
+        "class_type": "VAEDecode",
+        "_meta": {
+            "title": "VAE Decode"
+        }
+    },
+    "SaveImage": {
+        "inputs": {
+            "filename_prefix": "ComfyUI",
+            "images": ["VAEDecode", 0]
+        },
+        "class_type": "SaveImage",
+        "_meta": {
+            "title": "Save Image"
+        }
+    },
+    "T5TokenizerOptions": {
+        "inputs": {
+            "min_padding": 1,
+            "min_length": 0,
+            "clip": ["CLIPLoader", 0]
+        },
+        "class_type": "T5TokenizerOptions",
+        "_meta": {
+            "title": "T5TokenizerOptions"
+        }
+    },
+    "BasicScheduler": {
+        "inputs": {
+            "scheduler": "beta",
+            "steps": 20,
+            "denoise": 1,
+            "model": ["UNETLoader", 0]
+        },
+        "class_type": "BasicScheduler",
+        "_meta": {
+            "title": "BasicScheduler"
+        }
+    },
+    "UNETLoader": {
+        "inputs": {
+            "unet_name": "chroma-unlocked-v48-detail-calibrated.safetensors",
+            "weight_dtype": "default"
+        },
+        "class_type": "UNETLoader",
+        "_meta": {
+            "title": "UNET Loader"
+        }
+    },
+    "CLIPLoader": {
+        "inputs": {
+            "clip_name": "t5xxl_fp16_2.safetensors",
+            "type": "chroma"
+        },
+        "class_type": "CLIPLoader",
+        "_meta": {
+            "title": "CLIP Loader"
+        }
+    },
+    "VAELoader": {
+        "inputs": {
+            "vae_name": "diffusion_pytorch_model.safetensors"
+        },
+        "class_type": "VAELoader",
+        "_meta": {
+            "title": "VAE Loader"
+        }
+    },
+    "FluxGuidance": {
+        "inputs": {
+            "conditioning": ["CLIPTextEncode_positive", 0]
+        },
+        "class_type": "FluxGuidance",
+        "_meta": {
+            "title": "Flux Guidance"
+        }
+    },
+    "CLIPTextEncode_positive": {
+        "inputs": {
+            "text": "test prompt",
+            "clip": ["T5TokenizerOptions", 0]
+        },
+        "class_type": "CLIPTextEncode",
+        "_meta": {
+            "title": "CLIP Text Encode (Prompt)"
+        }
+    }
+}

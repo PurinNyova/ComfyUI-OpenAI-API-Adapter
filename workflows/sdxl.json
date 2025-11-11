@@ -1,18 +1,18 @@
 {
-    "67": {
+    "SamplerCustomAdvanced": {
         "inputs": {
-            "noise": ["68", 0],
-            "guider": ["73", 0],
-            "sampler": ["72", 0],
-            "sigmas": ["84", 0],
-            "latent_image": ["69", 0]
+            "noise": ["RandomNoise", 0],
+            "guider": ["CFGGuider", 0],
+            "sampler": ["KSamplerSelect", 0],
+            "sigmas": ["BasicScheduler", 0],
+            "latent_image": ["EmptySD3LatentImage", 0]
         },
         "class_type": "SamplerCustomAdvanced",
         "_meta": {
             "title": "SamplerCustomAdvanced"
         }
     },
-    "68": {
+    "RandomNoise": {
         "inputs": {
             "noise_seed": 0
         },
@@ -21,7 +21,7 @@
             "title": "RandomNoise"
         }
     },
-    "69": {
+    "EmptySD3LatentImage": {
         "inputs": {
             "width": 1024,
             "height": 1024,
@@ -32,7 +32,7 @@
             "title": "EmptySD3LatentImage"
         }
     },
-    "72": {
+    "KSamplerSelect": {
         "inputs": {
             "sampler_name": "dpmpp_2m"
         },
@@ -41,72 +41,72 @@
             "title": "KSamplerSelect"
         }
     },
-    "73": {
+    "CFGGuider": {
         "inputs": {
             "cfg": 5,
-            "model": ["90", 0],
-            "positive": ["97", 0],
-            "negative": ["97", 1]
+            "model": ["CheckpointLoaderSimple", 0],
+            "positive": ["CLIPTextEncode_positive", 0],
+            "negative": ["CLIPTextEncode_negative", 1]
         },
         "class_type": "CFGGuider",
         "_meta": {
             "title": "CFGGuider"
         }
     },
-    "75": {
+    "CLIPTextEncode_negative": {
         "inputs": {
             "text": "bad quality, worst quality, nsfw, nude, grayscale, black and white",
-            "clip": ["98", 0]
+            "clip": ["T5TokenizerOptions", 0]
         },
-        "class_type": "PCTextEncode",
+        "class_type": "CLIPTextEncode",
         "_meta": {
-            "title": "PC Text Encode (Prompt)"
+            "title": "CLIP Text Encode"
         }
     },
-    "79": {
+    "VAEDecode": {
         "inputs": {
-            "samples": ["67", 0],
-            "vae": ["90", 2]
+            "samples": ["SamplerCustomAdvanced", 0],
+            "vae": ["CheckpointLoaderSimple", 2]
         },
         "class_type": "VAEDecode",
         "_meta": {
             "title": "VAE Decode"
         }
     },
-    "81": {
+    "SaveImage": {
         "inputs": {
             "filename_prefix": "ComfyUI",
-            "images": ["79", 0]
+            "images": ["VAEDecode", 0]
         },
         "class_type": "SaveImage",
         "_meta": {
             "title": "Save Image"
         }
     },
-    "82": {
+    "T5TokenizerOptions": {
         "inputs": {
             "min_padding": 1,
             "min_length": 0,
-            "clip": ["90", 1]
+            "clip": ["CheckpointLoaderSimple", 1]
         },
         "class_type": "T5TokenizerOptions",
         "_meta": {
             "title": "T5TokenizerOptions"
         }
     },
-    "84": {
+    "BasicScheduler": {
         "inputs": {
             "scheduler": "simple",
             "steps": 20,
             "denoise": 1,
-            "model": ["90", 0]
+            "model": ["CheckpointLoaderSimple", 0]
         },
         "class_type": "BasicScheduler",
         "_meta": {
             "title": "BasicScheduler"
         }
     },
-    "90": {
+    "CheckpointLoaderSimple": {
         "inputs": {
             "ckpt_name": "test.safetensors"
         },
@@ -115,41 +115,14 @@
             "title": "Load Checkpoint"
         }
     },
-    "96": {
+    "CLIPTextEncode_positive": {
         "inputs": {
             "text": "test prompt",
-            "clip": ["98", 0]
+            "clip": ["T5TokenizerOptions", 0]
         },
-        "class_type": "PCTextEncode",
+        "class_type": "CLIPTextEncode",
         "_meta": {
-            "title": "PC: Text Encode (no scheduling)"
-        }
-    },
-    "97": {
-        "inputs": {
-            "positive": ["96", 0],
-            "negative": ["75", 0]
-        },
-        "class_type": "PCAttentionCoupleBatchNegative",
-        "_meta": {
-            "title": "PC: Attention Couple (batch negative)"
-        }
-    },
-    "98": {
-        "inputs": {
-            "mask_width": 512,
-            "mask_height": 512,
-            "sdxl_width": 512,
-            "sdxl_height": 512,
-            "sdxl_target_w": 512,
-            "sdxl_target_h": 512,
-            "sdxl_crop_w": 0,
-            "sdxl_crop_h": 0,
-            "clip": ["82", 0]
-        },
-        "class_type": "PCSetPCTextEncodeSettings",
-        "_meta": {
-            "title": "PC: Configure PCTextEncode"
+            "title": "CLIP Text Encode"
         }
     }
 }
