@@ -29,7 +29,7 @@ Create a `.env` file or modify the configuration with the following variables:
 |----------|---------|-------------|
 | `CONFIG_FILE` | `config.json` | Path to the configuration file |
 | `WORKFLOWS_DIR` | `workflows` | Directory containing workflow definitions |
-| `SAVE_IMAGE_NODE_ID` | `81` | ComfyUI node for image saving |
+| `SAVE_IMAGE_NODE_ID` | `SaveImage` | ComfyUI node for image saving |
 | `COMFYUI_BASE_URL` | `http://127.0.0.1:8188` | ComfyUI server URL |
 | `APIKEY` | `DidYouKnowThatVaporeon` | API key for authentication |
 
