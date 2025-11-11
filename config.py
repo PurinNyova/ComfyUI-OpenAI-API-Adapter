@@ -7,7 +7,7 @@ from typing import Dict, Any
 load_dotenv()
 CONFIG_FILE = os.getenv("CONFIG_FILE", "config.json")
 WORKFLOWS_DIR = os.getenv("WORKFLOWS_DIR", "workflows")
-SAVE_IMAGE_NODE_ID = int(os.getenv("SAVE_IMAGE_NODE_ID", "81"))
+SAVE_IMAGE_NODE_ID = os.getenv("SAVE_IMAGE_NODE_ID", "SaveImage")
 COMFYUI_BASE_URL = os.getenv("COMFYUI_BASE_URL", "http://localhost:8188")
 APIKEY = os.getenv("APIKEY", "DidYouKnowThatVaporeon")
 
