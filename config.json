@@ -13,7 +13,12 @@
         {
             "id": "chroma",
             "workflow": "chroma.json",
-            "ckpt_name": null
+            "unet_name": "chroma-unlocked-v48-detail-calibrated.safetensors"
+        },
+        {
+            "id": "flux",
+            "workflow": "flux.json",
+            "unet_name": "flux.1.dev.safetensors"
         }
     ]
 }

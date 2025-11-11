@@ -45,6 +45,7 @@ async def generate_images(
     
     model_config = next(m for m in config["models"] if m["id"] == request.model)
     ckpt_name = model_config.get("ckpt_name")
+    unet_name = model_config.get("unet_name")
     
     if request.n != 1:
         raise HTTPException(status_code=400, detail="Only n=1 is supported for simplicity.")
@@ -57,15 +58,17 @@ async def generate_images(
     
     workflow = load_workflow(model_config)
     
-    # hardcoded keys for now. a bit difficult to parse general workflows
-    workflow["68"]["inputs"]["noise_seed"] = seed
-    workflow["69"]["inputs"]["width"] = width
-    workflow["69"]["inputs"]["height"] = height
-    workflow["81"]["inputs"]["filename_prefix"] = filename_prefix
-    workflow["96"]["inputs"]["text"] = request.prompt
+    # Update workflow with request parameters using descriptive node names
+    workflow["RandomNoise"]["inputs"]["noise_seed"] = seed
+    workflow["EmptySD3LatentImage"]["inputs"]["width"] = width
+    workflow["EmptySD3LatentImage"]["inputs"]["height"] = height
+    workflow["SaveImage"]["inputs"]["filename_prefix"] = filename_prefix
+    workflow["CLIPTextEncode_positive"]["inputs"]["text"] = request.prompt
     
     if ckpt_name:
-        workflow["90"]["inputs"]["ckpt_name"] = ckpt_name
+        workflow["CheckpointLoaderSimple"]["inputs"]["ckpt_name"] = ckpt_name
+    if unet_name:
+        workflow["UNETLoader"]["inputs"]["unet_name"] = unet_name
     
     data = {
         "prompt": workflow
