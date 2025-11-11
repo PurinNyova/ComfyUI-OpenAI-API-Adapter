@@ -41,6 +41,7 @@ Edit `config.json` to configure available models and their settings.
 - ✅ Chroma
 - ✅ SDXL
 - ✅ Flux
+
 You may make your own workflow following existing ones as example.
 
 ## Project Structure
