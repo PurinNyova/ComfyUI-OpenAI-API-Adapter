@@ -1,0 +1,19 @@
+{
+    "models": [
+        {
+            "id": "hassaku-xl-illustrious-v22",
+            "workflow": "sdxl.json",
+            "ckpt_name": "hassakuXLIllustrious_v22.safetensors"
+        },
+        {
+            "id": "hassaku-xl-illustrious-v13stylea",
+            "workflow": "sdxl.json",
+            "ckpt_name": "hassakuXLIllustrious_v13StyleA.safetensors"
+        },
+        {
+            "id": "chroma",
+            "workflow": "chroma.json",
+            "ckpt_name": null
+        }
+    ]
+}

@@ -1,0 +1,148 @@
+{
+    "67": {
+        "inputs": {
+            "noise": ["68", 0],
+            "guider": ["73", 0],
+            "sampler": ["72", 0],
+            "sigmas": ["84", 0],
+            "latent_image": ["69", 0]
+        },
+        "class_type": "SamplerCustomAdvanced",
+        "_meta": {
+            "title": "SamplerCustomAdvanced"
+        }
+    },
+    "68": {
+        "inputs": {
+            "noise_seed": 0
+        },
+        "class_type": "RandomNoise",
+        "_meta": {
+            "title": "RandomNoise"
+        }
+    },
+    "69": {
+        "inputs": {
+            "width": 1024,
+            "height": 1024,
+            "batch_size": 1
+        },
+        "class_type": "EmptySD3LatentImage",
+        "_meta": {
+            "title": "EmptySD3LatentImage"
+        }
+    },
+    "72": {
+        "inputs": {
+            "sampler_name": "euler"
+        },
+        "class_type": "KSamplerSelect",
+        "_meta": {
+            "title": "KSamplerSelect"
+        }
+    },
+    "73": {
+        "inputs": {
+            "cfg": 5,
+            "model": ["90", 0],
+            "positive": ["96", 0],
+            "negative": ["75", 0]
+        },
+        "class_type": "CFGGuider",
+        "_meta": {
+            "title": "CFGGuider"
+        }
+    },
+    "75": {
+        "inputs": {
+            "text": "bad quality, worst quality, nsfw, nude, sex, pussy, dick, naked, grayscale, black and white",
+            "clip": ["82", 0]
+        },
+        "class_type": "CLIPTextEncode",
+        "_meta": {
+            "title": "CLIP Text Encode (Prompt)"
+        }
+    },
+    "79": {
+        "inputs": {
+            "samples": ["67", 0],
+            "vae": ["92", 0]
+        },
+        "class_type": "VAEDecode",
+        "_meta": {
+            "title": "VAE Decode"
+        }
+    },
+    "81": {
+        "inputs": {
+            "filename_prefix": "ComfyUI",
+            "images": ["79", 0]
+        },
+        "class_type": "SaveImage",
+        "_meta": {
+            "title": "Save Image"
+        }
+    },
+    "82": {
+        "inputs": {
+            "min_padding": 1,
+            "min_length": 0,
+            "clip": ["91", 0]
+        },
+        "class_type": "T5TokenizerOptions",
+        "_meta": {
+            "title": "T5TokenizerOptions"
+        }
+    },
+    "84": {
+        "inputs": {
+            "scheduler": "beta",
+            "steps": 15,
+            "denoise": 1,
+            "model": ["90", 0]
+        },
+        "class_type": "BasicScheduler",
+        "_meta": {
+            "title": "BasicScheduler"
+        }
+    },
+    "90": {
+        "inputs": {
+            "unet_name": "chroma-unlocked-v48-detail-calibrated.safetensors",
+            "weight_dtype": "default"
+        },
+        "class_type": "UNETLoader",
+        "_meta": {
+            "title": "UNET Loader"
+        }
+    },
+    "91": {
+        "inputs": {
+            "clip_name": "t5xxl_fp16_2.safetensors",
+            "type": "chroma"
+        },
+        "class_type": "CLIPLoader",
+        "_meta": {
+            "title": "CLIP Loader"
+        }
+    },
+    "92": {
+        "inputs": {
+            "vae_name": "diffusion_pytorch_model.safetensors"
+        },
+        "class_type": "VAELoader",
+        "_meta": {
+            "title": "VAE Loader"
+        }
+    },
+    "96": {
+        "inputs": {
+            "text": "test prompt",
+            "clip": ["82", 0]
+        },
+        "class_type": "CLIPTextEncode",
+        "_meta": {
+            "title": "CLIP Text Encode (Prompt)"
+        }
+    }
+}
