@@ -2,7 +2,7 @@
     "SamplerCustomAdvanced": {
         "inputs": {
             "noise": ["RandomNoise", 0],
-            "guider": ["CFGGuider", 0],
+            "guider": ["BasicGuider", 0],
             "sampler": ["KSamplerSelect", 0],
             "sigmas": ["BasicScheduler", 0],
             "latent_image": ["EmptySD3LatentImage", 0]
@@ -34,39 +34,28 @@
     },
     "KSamplerSelect": {
         "inputs": {
-            "sampler_name": "dpmpp_2m"
+            "sampler_name": "euler"
         },
         "class_type": "KSamplerSelect",
         "_meta": {
             "title": "KSamplerSelect"
         }
     },
-    "CFGGuider": {
+    "BasicGuider": {
         "inputs": {
             "cfg": 5,
-            "model": ["CheckpointLoaderSimple", 0],
-            "positive": ["CLIPTextEncode_positive", 0],
-            "negative": ["CLIPTextEncode_negative", 1]
+            "model": ["FluxGuidance", 0],
+            "positive": ["CLIPTextEncode_positive", 0]
         },
-        "class_type": "CFGGuider",
+        "class_type": "BasicGuider",
         "_meta": {
-            "title": "CFGGuider"
-        }
-    },
-    "CLIPTextEncode_negative": {
-        "inputs": {
-            "text": "bad quality, worst quality, nsfw, nude, grayscale, black and white",
-            "clip": ["T5TokenizerOptions", 0]
-        },
-        "class_type": "CLIPTextEncode",
-        "_meta": {
-            "title": "CLIP Text Encode"
+            "title": "BasicGuider"
         }
     },
     "VAEDecode": {
         "inputs": {
             "samples": ["SamplerCustomAdvanced", 0],
-            "vae": ["CheckpointLoaderSimple", 2]
+            "vae": ["VAELoader", 0]
         },
         "class_type": "VAEDecode",
         "_meta": {
@@ -87,7 +76,7 @@
         "inputs": {
             "min_padding": 1,
             "min_length": 0,
-            "clip": ["CheckpointLoaderSimple", 1]
+            "clip": ["CLIPLoader", 0]
         },
         "class_type": "T5TokenizerOptions",
         "_meta": {
@@ -96,23 +85,52 @@
     },
     "BasicScheduler": {
         "inputs": {
-            "scheduler": "simple",
+            "scheduler": "beta",
             "steps": 20,
             "denoise": 1,
-            "model": ["CheckpointLoaderSimple", 0]
+            "model": ["UNETLoader", 0]
         },
         "class_type": "BasicScheduler",
         "_meta": {
             "title": "BasicScheduler"
         }
     },
-    "CheckpointLoaderSimple": {
+    "UNETLoader": {
         "inputs": {
-            "ckpt_name": "test.safetensors"
+            "unet_name": "chroma-unlocked-v48-detail-calibrated.safetensors",
+            "weight_dtype": "default"
         },
-        "class_type": "CheckpointLoaderSimple",
+        "class_type": "UNETLoader",
         "_meta": {
-            "title": "Load Checkpoint"
+            "title": "UNET Loader"
+        }
+    },
+    "CLIPLoader": {
+        "inputs": {
+            "clip_name": "t5xxl_fp16_2.safetensors",
+            "type": "chroma"
+        },
+        "class_type": "CLIPLoader",
+        "_meta": {
+            "title": "CLIP Loader"
+        }
+    },
+    "VAELoader": {
+        "inputs": {
+            "vae_name": "diffusion_pytorch_model.safetensors"
+        },
+        "class_type": "VAELoader",
+        "_meta": {
+            "title": "VAE Loader"
+        }
+    },
+    "FluxGuidance": {
+        "inputs": {
+            "conditioning": ["CLIPTextEncode_positive", 0]
+        },
+        "class_type": "FluxGuidance",
+        "_meta": {
+            "title": "Flux Guidance"
         }
     },
     "CLIPTextEncode_positive": {
@@ -122,7 +140,7 @@
         },
         "class_type": "CLIPTextEncode",
         "_meta": {
-            "title": "CLIP Text Encode"
+            "title": "CLIP Text Encode (Prompt)"
         }
     }
 }

@@ -45,22 +45,22 @@
         "inputs": {
             "cfg": 5,
             "model": ["CheckpointLoaderSimple", 0],
-            "positive": ["CLIPTextEncode_positive", 0],
-            "negative": ["CLIPTextEncode_negative", 1]
+            "positive": ["PCAttentionCoupleBatchNegative", 0],
+            "negative": ["PCAttentionCoupleBatchNegative", 1]
         },
         "class_type": "CFGGuider",
         "_meta": {
             "title": "CFGGuider"
         }
     },
-    "CLIPTextEncode_negative": {
+    "PCTextEncode_negative": {
         "inputs": {
             "text": "bad quality, worst quality, nsfw, nude, grayscale, black and white",
-            "clip": ["T5TokenizerOptions", 0]
+            "clip": ["PCSetPCTextEncodeSettings", 0]
         },
-        "class_type": "CLIPTextEncode",
+        "class_type": "PCTextEncode",
         "_meta": {
-            "title": "CLIP Text Encode"
+            "title": "PC Text Encode (Prompt)"
         }
     },
     "VAEDecode": {
@@ -115,14 +115,41 @@
             "title": "Load Checkpoint"
         }
     },
-    "CLIPTextEncode_positive": {
+    "PCTextEncode_positive": {
         "inputs": {
             "text": "test prompt",
+            "clip": ["PCSetPCTextEncodeSettings", 0]
+        },
+        "class_type": "PCTextEncode",
+        "_meta": {
+            "title": "PC: Text Encode (no scheduling)"
+        }
+    },
+    "PCAttentionCoupleBatchNegative": {
+        "inputs": {
+            "positive": ["PCTextEncode_positive", 0],
+            "negative": ["PCTextEncode_negative", 0]
+        },
+        "class_type": "PCAttentionCoupleBatchNegative",
+        "_meta": {
+            "title": "PC: Attention Couple (batch negative)"
+        }
+    },
+    "PCSetPCTextEncodeSettings": {
+        "inputs": {
+            "mask_width": 512,
+            "mask_height": 512,
+            "sdxl_width": 512,
+            "sdxl_height": 512,
+            "sdxl_target_w": 512,
+            "sdxl_target_h": 512,
+            "sdxl_crop_w": 0,
+            "sdxl_crop_h": 0,
             "clip": ["T5TokenizerOptions", 0]
         },
-        "class_type": "CLIPTextEncode",
+        "class_type": "PCSetPCTextEncodeSettings",
         "_meta": {
-            "title": "CLIP Text Encode"
+            "title": "PC: Configure PCTextEncode"
         }
     }
 }
