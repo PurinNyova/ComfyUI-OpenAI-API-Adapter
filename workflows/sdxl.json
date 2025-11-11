@@ -46,7 +46,7 @@
             "cfg": 5,
             "model": ["CheckpointLoaderSimple", 0],
             "positive": ["CLIPTextEncode_positive", 0],
-            "negative": ["CLIPTextEncode_negative", 1]
+            "negative": ["CLIPTextEncode_negative", 0]
         },
         "class_type": "CFGGuider",
         "_meta": {
@@ -56,7 +56,7 @@
     "CLIPTextEncode_negative": {
         "inputs": {
             "text": "bad quality, worst quality, nsfw, nude, grayscale, black and white",
-            "clip": ["T5TokenizerOptions", 0]
+            "clip": ["CheckpointLoaderSimple", 1]
         },
         "class_type": "CLIPTextEncode",
         "_meta": {
@@ -83,17 +83,6 @@
             "title": "Save Image"
         }
     },
-    "T5TokenizerOptions": {
-        "inputs": {
-            "min_padding": 1,
-            "min_length": 0,
-            "clip": ["CheckpointLoaderSimple", 1]
-        },
-        "class_type": "T5TokenizerOptions",
-        "_meta": {
-            "title": "T5TokenizerOptions"
-        }
-    },
     "BasicScheduler": {
         "inputs": {
             "scheduler": "simple",
@@ -118,7 +107,7 @@
     "CLIPTextEncode_positive": {
         "inputs": {
             "text": "test prompt",
-            "clip": ["T5TokenizerOptions", 0]
+            "clip": ["CheckpointLoaderSimple", 1]
         },
         "class_type": "CLIPTextEncode",
         "_meta": {
